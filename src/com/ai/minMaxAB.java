@@ -1,4 +1,4 @@
-package knightminmaxab;
+package com.ai;
 
 import java.util.ArrayList;
 
@@ -46,11 +46,7 @@ public class minMaxAB {
     }
 
     public boolean deepEnough(int position, int depth) {
-        if (depth >= MAX_DEPTH) {
-            return true;
-        } else {
-            return false;
-        }
+        return depth >= MAX_DEPTH;
     }
 
     public int Static(int position, Player player) {
