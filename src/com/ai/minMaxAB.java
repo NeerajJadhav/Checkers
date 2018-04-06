@@ -84,9 +84,9 @@ public class minMaxAB {
                                         child.moveBlack(p, p+(n-1));
                                         children.add(child);
                                 }
-                                else if (wPieces.contains(p + (n - 1)) //check to see if white piece left-forward adjacent
-                                && !b.leftBorder.contains(p + (n - 1)) //check to see if square beyond white piece (side)
-                                && !b.bottomBorder.contains(p + (n - 1)) // check to see if square beyond white piece (bottom)
+                                else if ((wPieces.contains(p + (n - 1)) || wkPieces.contains(p+(n-1))) //check to see if white piece left-forward adjacent
+                                && !current.leftBorder.contains(p + (n - 1)) //check to see if square beyond white piece (side)
+                                && !current.bottomBorder.contains(p + (n - 1)) // check to see if square beyond white piece (bottom)
                                  ) {
                                         if (b.isEmpty(p + (2 * (n - 1)))) { //check to see if square beyond is empty
                                         child = new Board();
@@ -114,11 +114,11 @@ public class minMaxAB {
                                         children.add(child);
 
                                 }
-                                else if (wPieces.contains(p + (n+1) //check to see if white piece right-forward adjacent
-                                  && !b.rightBorder.contains(p +(n+1) //check to see if square beyond white piece (side)
-                                  && !b.bottomBorder.contains(p + (n+1)) //check to see if square beyond white piece (bottom)
+                                else if ((wPieces.contains(p + (n+1) || wkPieces.contains(p+(n+1)))//check to see if white piece right-forward adjacent
+                                  && !current.rightBorder.contains(p +(n+1) //check to see if square beyond white piece (side)
+                                  && !current.bottomBorder.contains(p + (n+1)) //check to see if square beyond white piece (bottom)
                                   ) {
-                                        if (b.isEmpty(p + (2 * (n+1))) { //check to see if square beyond is empty
+                                        if (current.isEmpty(p + (2 * (n+1))) { //check to see if square beyond is empty
                                                 child = new Board();
                                                 child.setWhite(current.getWhite());
                                                 child.setBlack(current.getBlack());
@@ -142,9 +142,9 @@ public class minMaxAB {
                                         child.movekBlack(k, k+(n-1));
                                         children.add(child);
                                 }
-                                else if (wPieces.contains(k + (n - 1)) //check to see if white piece left-forward adjacent
-                                  && !b.leftBorder.contains(k + (n - 1)) //check to see if square beyond white piece (side)
-                                  && !b.bottomBorder.contains(k + (n - 1)) // check to see if square beyond white piece (bottom)
+                                else if ((wPieces.contains(k + (n - 1)) || wkPieces.contains(k+(n-1))) //check to see if white piece left-forward adjacent
+                                  && !current.leftBorder.contains(k + (n - 1)) //check to see if square beyond white piece (side)
+                                  && !current.bottomBorder.contains(k + (n - 1)) // check to see if square beyond white piece (bottom)
                                   ) {
                                         if (b.isEmpty(k + (2 * (n - 1)))) { //check to see if square beyond is empty
                                                 child = new Board();
@@ -166,11 +166,11 @@ public class minMaxAB {
                                         child.movekBlack(k, k-(n+1));
                                         children.add(child);
                                 }
-                                else if (wPieces.contains(k - (n + 1)) //check to see if white piece left-forward adjacent
-                                  && !b.leftBorder.contains(k - (n + 1)) //check to see if square beyond white piece (side)
-                                  && !b.bottomBorder.contains(k - (n + 1)) // check to see if square beyond white piece (bottom)
+                                else if ((wPieces.contains(k - (n + 1))|| wkPieces.contains(k-(n+1))) //check to see if white piece left-forward adjacent
+                                  && !current.leftBorder.contains(k - (n + 1)) //check to see if square beyond white piece (side)
+                                  && !current.bottomBorder.contains(k - (n + 1)) // check to see if square beyond white piece (bottom)
                                    {
-                                        if (b.isEmpty(k - (2 * (n + 1)))) { //check to see if square beyond is empty
+                                        if (current.isEmpty(k - (2 * (n + 1)))) { //check to see if square beyond is empty
                                         child = new Board();
                                         child.setWhite(current.getWhite());
                                         child.setBlack(current.getBlack());
@@ -197,9 +197,9 @@ public class minMaxAB {
                                         children.add(child);
 
                                 }
-                                else if (wPieces.contains(k + (n+1) //check to see if white piece right-forward adjacent
-                                  && !b.rightBorder.contains(k +(n+1) //check to see if square beyond white piece (side)
-                                  && !b.bottomBorder.contains(k + (n+1)) //check to see if square beyond white piece (bottom)
+                                else if ((wPieces.contains(k + (n+1) || wkPieces.contains(k+(n+1))) //check to see if white piece right-forward adjacent
+                                  && !current.rightBorder.contains(k +(n+1) //check to see if square beyond white piece (side)
+                                  && !current.bottomBorder.contains(k + (n+1)) //check to see if square beyond white piece (bottom)
                                   ) {
                                         if (b.isEmpty(k + (2 * (n+1))) { //check to see if square beyond is empty
                                                 child = new Board();
@@ -218,9 +218,10 @@ public class minMaxAB {
 
         }
         else{
-
+            //Do all the white piece move generation
         }
-}
+        return children;
+    }
 
 
 }
