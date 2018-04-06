@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /******************************************************************************
  _   _   _   _
- |_|1|_|2|_|3|_|4|  { 1- 4}
+ |_|02|_|2|_|3|_|4|  { 1- 4}
  |5|_|6|_|7|_|8|_|  { 5- 8}
  |_|9|_|0|_|1|_|2|  { 9-12}
  |3|_|4|_|5|_|6|_|  {13-16}
@@ -13,32 +13,58 @@ import java.util.ArrayList;
  |_|5|_|6|_|7|_|8|  {25-28}
  |9|_|0|_|1|_|2|_|  {29-32}
 
+|01|02|03|04|05|08|07|08| 
+|09|10|11|12|13|14|15|16| 
+|17|18|19|20|21|22|23|24| 
+|25|26|27|28|29|30|31|32| 
+|33|34|35|36|37|38|39|40| 
+|41|42|43|44|45|46|47|48| 
+|49|50|51|52|53|54|55|56| 
+|57|58|59|60|61|62|63|64| 
+
+
  *******************************************************************************/
 public class Board {
     private static final int DIMENSION = 8;
     ArrayList<Integer> rightBorder = new ArrayList<Integer>() {{
-        add(4);
-        add(12);
-        add(20);
-        add(28);
+        add(08);
+        add(16);
+        add(24);
+        add(32);
+        add(40);
+        add(48);
+        add(56);
+        add(64);
     }};
     ArrayList<Integer> leftBorder = new ArrayList<Integer>() {{
-        add(5);
-        add(13);
-        add(21);
-        add(29);
+        add(01);
+        add(09);
+        add(17);
+        add(25);
+        add(33);
+        add(41);
+        add(49);
+        add(57);
     }};
     ArrayList<Integer> bottomBorder = new ArrayList<Integer>() {{
-        add(1);
-        add(2);
-        add(3);
-        add(4);
+        add(57);
+        add(58);
+        add(59);
+        add(60);
+        add(61);
+        add(62);
+        add(63);
+        add(64);
     }};
     ArrayList<Integer> topBorder = new ArrayList<Integer>() {{
-        add(29);
-        add(30);
-        add(31);
-        add(32);
+        add(01);
+        add(02);
+        add(03);
+        add(04);
+        add(05);
+        add(06);
+        add(07);
+        add(08);
     }};
     private ArrayList<Integer> white = new ArrayList<>();
     private ArrayList<Integer> black = new ArrayList<>();
@@ -121,4 +147,44 @@ public class Board {
     public boolean isEmpty(int space) {
         return (!white.contains(space) && !black.contains(space));
     }
+   public void moveBlack(int oldP, int newP){
+       if(newP != 0){
+             if kBlack.contains(oldP){ 
+                 kBlack.remove(oldP);
+                 kBlack.add(newP);
+             }
+             else if(black.contains(oldP)){
+                  black.remove(oldP);
+                  black.add(newP);
+             }
+       }
+       else {
+             if kBlack.contains(oldP){ 
+                 kBlack.remove(oldP);
+             }
+             else if(black.contains(oldP)){
+                  black.remove(oldP);
+             }
+       }
+   }
+ public void moveWhite(int oldP, int newP){
+       if(newP != 0){
+             if kWhite.contains(oldP){ 
+                 kWhite.remove(oldP);
+                 kWhite.add(newP);
+             }
+             else if(white.contains(oldP)){
+                  white.remove(oldP);
+                  white.add(newP);
+             }
+       }
+       else {
+             if kWhite.contains(oldP){ 
+                 kWhite.remove(oldP);
+             }
+             else if(white.contains(oldP)){
+                  white.remove(oldP);
+             }
+       }
+   }
 }
