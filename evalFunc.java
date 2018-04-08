@@ -11,11 +11,10 @@ public class evalFunc {
 
     private static final int PAWN_VALUE = 100;
     private static final int FORWARD_PAWN_VALUE = 50;
-    private static final int KING_VALUE = 150;
+    private static final int KING_VALUE = 175;
     private static final int NEAR_KING_VALUE = 100;
-    private static final int PAWN_CAN_JUMP = 100;
-    private static final int[] GOOD_TILES = new int[]{12, 22};
-
+    private static final int JUMP_PAWN = 200;
+    private static final int JUMP_KING = 400;    
 
     public static int getScore(Board b, minMaxAB.Player p) {
         float bValue = 0;
@@ -24,8 +23,7 @@ public class evalFunc {
         ArrayList<Integer> wK_Pieces = b.getkWhite();
         ArrayList<Integer> bPieces = b.getBlack();
         ArrayList<Integer> bK_Pieces = b.getkBlack();
-        int n = b.getDIMENSION() / 2;
-
+        int n = b.getDIMENSION();
 
         bValue += b.getBlack().size() * PAWN_VALUE;
         bValue += b.getkBlack().size() * KING_VALUE;
@@ -34,68 +32,89 @@ public class evalFunc {
 
         //Evaluate jumps for Black pieces
         for (Integer i : bPieces) {
-            if (i > 20) {
-                if (i > 24) {
+            if (i > 40) {
+                if (i > 48) {
                     bValue += NEAR_KING_VALUE;
                 } else {
                     bValue += FORWARD_PAWN_VALUE;
                 }
             }
-            if (!b.leftBorder.contains(i)   //check to see if left jump possible
-                    && wPieces.contains(i + n - 1) //check to see if white piece left-forward adjacent
-                    && !b.leftBorder.contains(i + n - 1) //check to see if square beyond white piece (side)
-                    && !b.bottomBorder.contains(i + n - 1) // check to see if square beyond white piece (bottom)
-                    ) {
-                if (b.isEmpty(i + (2 * n - 1))) { //check to see if square beyond is empty
-                    bValue += PAWN_CAN_JUMP;
-                }
+            if (b.canJumpForwardLeft(i)) { // check left foward jump
+                if(wK_Pieces.contains(i+(n-1))) {bValue += JUMP_KING;}
+                else {bValue += JUMP_PAWN;}
+            }
+            if (b.canJumpForwardRight(i)) {// check right foward jump
+                if(wK_Pieces.contains(i+(n+1))) {bValue += JUMP_KING;}
+                else {bValue += JUMP_PAWN;}
+            }
+        }
+        for (Integer i : bK_Pieces) {
+            
+            if (b.canJumpForwardLeft(i)) { // check left foward jump
+                if(wK_Pieces.contains(i+(n-1))) {bValue += JUMP_KING;}
+                else {bValue += JUMP_PAWN;}
+            }
+            if (b.canJumpForwardRight(i)) {// check right foward jump
+                if(wK_Pieces.contains(i+(n+1))) {bValue += JUMP_KING;}
+                else {bValue += JUMP_PAWN;}
             }
 
-            if (!b.rightBorder.contains(i) //check to see if right-forward jump possible
-                    && wPieces.contains(i + n) //check to see if white piece right-forward adjacent
-                    && !b.rightBorder.contains(i + n) //check to see if square beyond white piece (side)
-                    && !b.bottomBorder.contains(i + n) //check to see if square beyond white piece (bottom)
-                    ) {
-                if (b.isEmpty(i + (2 * n))) { //check to see if square beyond is empty
-                    bValue += PAWN_CAN_JUMP;
-                }
+            if (b.canJumpRearLeft(i)) { // check left rear jump
+                if(wK_Pieces.contains(i-(n+1))) {bValue += JUMP_KING;}
+                else {bValue += JUMP_PAWN;}
             }
-
+            if (b.canJumpRearRight(i)) {// check right rear jump
+                if(wK_Pieces.contains(i-(n-1))) {bValue += JUMP_KING;}
+                else {bValue += JUMP_PAWN;}
+            }
         }
 
         //Evaluate jumps for White pieces
         for (Integer i : wPieces) {
-            if (i < 13) {
-                if (i < 9) {
+            if (i < 25) {
+                if (i < 17) {
                     wValue += NEAR_KING_VALUE;
                 } else {
                     wValue += FORWARD_PAWN_VALUE;
                 }
             }
-
-            if (!b.leftBorder.contains(i)   //check to see if left jump possible
-                    && bPieces.contains(i - n + 1) //check to see if black piece left-forward adjacent
-                    && !b.leftBorder.contains(i - n + 1) //check to see if square beyond black piece (side)
-                    && !b.topBorder.contains(i - n + 1) // check to see if square beyond black piece (top)
-                    ) {
-                if (b.isEmpty(i - (2 * n + 1))) { //check to see if square beyond is empty
-                    wValue += PAWN_CAN_JUMP;
-                }
+            if (b.canJumpRearLeft(i)) { // check left rear jump
+                if(bK_Pieces.contains(i-(n+1))) {wValue += JUMP_KING;}
+                else {wValue += JUMP_PAWN;}
             }
-
-            if (!b.rightBorder.contains(i) //check to see if right-forward jump possible
-                    && wPieces.contains(i - n) //check to see if black piece right-forward adjacent
-                    && !b.rightBorder.contains(i - n) //check to see if square black white piece (side)
-                    && !b.topBorder.contains(i - n) //check to see if square black white piece (bottom)
-                    ) {
-                if (b.isEmpty(i + (2 * n))) { //check to see if square beyond is empty
-                    wValue += PAWN_CAN_JUMP;
-                }
+            if (b.canJumpRearRight(i)) {// check right rear jump
+                if(bK_Pieces.contains(i-(n-1))) {wValue += JUMP_KING;}
+                else {wValue += JUMP_PAWN;}
             }
         }
+        //Evaluate jumps for KING White pieces
+        for (Integer i : wK_Pieces) {           
 
-        return (int)(bValue - wValue);
+            if (b.canJumpForwardLeft(i)) { // check left foward jump
+                if(bK_Pieces.contains(i+(n-1))) {wValue += JUMP_KING;}
+                else {wValue += JUMP_PAWN;}
+            }
+            if (b.canJumpForwardRight(i)) {// check right foward jump
+                if(bK_Pieces.contains(i+(n+1))) {wValue += JUMP_KING;}
+                else {wValue += JUMP_PAWN;}
+            }
+
+            if (b.canJumpRearLeft(i)) { // check left rear jump
+                if(bK_Pieces.contains(i-(n+1))) {wValue += JUMP_KING;}
+                else {wValue += JUMP_PAWN;}
+            }
+            if (b.canJumpRearRight(i)) {// check right rear jump
+                if(bK_Pieces.contains(i-(n-1))) {wValue += JUMP_KING;}
+                else {wValue += JUMP_PAWN;}
+            }
+        }
+    if(p == minMaxAB.Player.max){
+            return (int) (bValue - wValue);
+        }
+        else if (b.getTerminal() && p == minMaxAB.Player.min) {
+            return (-1) * (int) (bValue - wValue);
+        }
+        return (int) (wValue - bValue);    
     }
-
 
 }
