@@ -18,7 +18,7 @@ public class minMaxAB {
         ValueStructure currValueStructure = new ValueStructure();        
         if (deepEnough(depth)) {            
             currValueStructure.setValue(Static(position, player));
-            currValueStructure.addToPath(position); //could be null
+            //currValueStructure.addToPath(position); //could be null
             return currValueStructure;
         }
         ArrayList<Board> successors = moveGen(position, player);
@@ -29,6 +29,7 @@ public class minMaxAB {
         }
         //END DEBUG CODE
         if (successors.isEmpty()) {
+            position.setTerminal();
             currValueStructure.setValue(Static(position, player));
             currValueStructure.addToPath(position);
             return currValueStructure;
@@ -85,8 +86,8 @@ public class minMaxAB {
                     child = current.cloneBoard();
                     child.moveBlack(p, p + (n - 1)); //move black piece to empty square
                     children.add(child);
-                } else if (current.canJumpForwardLeft(p)) {
-                    //Jump the white piece
+                } 
+                else if (current.canJumpForwardLeft(p)) { //Jump the white piece
                     child = current.cloneBoard();
                     child.moveBlack(p, p + (2 * (n - 1))); //Move Black Piece
                     child.moveWhite(p + (n - 1), 0); //Delete Jumped White piece
@@ -99,8 +100,8 @@ public class minMaxAB {
                     child = current.cloneBoard();
                     child.moveBlack(p, p + (n + 1)); //move token to forward right
                     children.add(child);
-                } else if (current.canJumpForwardRight(p)) {
-                    //Jump White Piece
+                } 
+                else if (current.canJumpForwardRight(p)) { //Jump White Piece
                     child = current.cloneBoard();
                     child.moveBlack(p, p + (2 * (n + 1))); //move black piece
                     child.moveWhite(p + (n + 1), 0); //remove jumped white token
@@ -180,6 +181,12 @@ public class minMaxAB {
             }
             //********************END BLACK KING MOVE GENERATION*****************//
         } ///************************END BLACK*******************************///
+        
+        
+        
+        
+        
+        
         ///**************************WHITE*********************************///		
         else {
             //**********************WHITE PIECE MOVE GENERATION**********************//

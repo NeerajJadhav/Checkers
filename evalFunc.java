@@ -9,12 +9,12 @@ import java.util.ArrayList;
 
 public class evalFunc {
 
-    private static final int PAWN_VALUE = 100;
-    private static final int FORWARD_PAWN_VALUE = 50;
-    private static final int KING_VALUE = 175;
-    private static final int NEAR_KING_VALUE = 100;
-    private static final int JUMP_PAWN = 200;
-    private static final int JUMP_KING = 400;    
+    private static final int PAWN_VALUE = 200;
+    private static final int FORWARD_PAWN_VALUE = 75;
+    private static final int KING_VALUE = 1000;
+    private static final int NEAR_KING_VALUE = 300;
+    private static final int JUMP_PAWN = 25;
+    private static final int JUMP_KING = 50;    
 
     public static int getScore(Board b, minMaxAB.Player p) {
         float bValue = 0;

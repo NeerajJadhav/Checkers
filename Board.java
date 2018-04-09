@@ -6,30 +6,21 @@ import java.util.HashMap;
 
 /**
  * ****************************************************************************
- *        CHECKERS
- * 
- * |01|02|03|04|05|06|07|08| 
- * |09|10|11|12|13|14|15|16| 
- * |17|18|19|20|21|22|23|24|
- * |25|26|27|28|29|30|31|32| 
- * |33|34|35|36|37|38|39|40| 
- * |41|42|43|44|45|46|47|48|
- * |49|50|51|52|53|54|55|56| 
- * |57|58|59|60|61|62|63|64| 
- * 
- * 
- * Player Max:
- *  -Black Tokens
- *  -Computer Controlled
- *  -Starts Top Border
- * 
- * Player Min:
- *  -White Tokens
- *  -Player or Computer Controlled
- *  -Starts Bottom Border
- ******************************************************************************
+ * CHECKERS
+ *
+ * |01|02|03|04|05|06|07|08| |09|10|11|12|13|14|15|16| |17|18|19|20|21|22|23|24|
+ * |25|26|27|28|29|30|31|32| |33|34|35|36|37|38|39|40| |41|42|43|44|45|46|47|48|
+ * |49|50|51|52|53|54|55|56| |57|58|59|60|61|62|63|64|
+ *
+ *
+ * Player Max: -Black Tokens -Computer Controlled -Starts Top Border
+ *
+ * Player Min: -White Tokens -Player or Computer Controlled -Starts Bottom
+ * Border
+ * *****************************************************************************
  */
 public class Board {
+
     public int depth;
     private static final int DIMENSION = 8;
     private HashMap<String, Integer> boardMapper = new HashMap<>();
@@ -115,6 +106,10 @@ public class Board {
         }
     }
 
+    public int mapValue(String s) {
+        return boardMapper.get(s);
+    }
+
     public static Board getStartBoard() {
         Board b = new Board();
         b.setBlack(new ArrayList<>(Arrays.asList(2, 4, 6, 8, 9, 11, 13, 15, 18, 20, 22, 24)));
@@ -124,6 +119,10 @@ public class Board {
 
     public boolean getTerminal() {
         return this.terminal;
+    }
+
+    public void setTerminal() {
+        this.terminal = true;
     }
 
     public ArrayList<Integer> getRightBorder() {
@@ -202,8 +201,13 @@ public class Board {
                 this.kBlack.remove(oldP);
                 this.kBlack.add(newP);
             } else if (this.black.contains(oldP)) {
-                this.black.add(newP);
-                this.black.remove(black.lastIndexOf(oldP));
+                this.black.remove(oldP);
+                if (this.bottomBorder.contains(newP)) {
+                    this.kBlack.add(newP);
+                } else {
+                    this.black.add(newP);
+                }
+
             }
         } else if (this.kBlack.contains(oldP)) {
             this.kBlack.remove(oldP);
@@ -227,7 +231,11 @@ public class Board {
                 kWhite.add(newP);
             } else if (white.contains(oldP)) {
                 white.remove(oldP);
-                white.add(newP);
+                if (this.topBorder.contains(newP)) {
+                    this.kWhite.add(newP);
+                } else {
+                    white.add(newP);
+                }
             }
         } else if (kWhite.contains(oldP)) {
             kWhite.remove(oldP);
@@ -285,29 +293,82 @@ public class Board {
             this.terminal = true;
         }
     }
-    
-    
+
     //***************MOVE VALIDATION************************//
     public boolean isValidMove(String currMove, String newMove) {
         //convert B1 to 9
-        int parsedCurrMove = boardMapper.get(currMove);
-        int parsedNewMove = boardMapper.get(newMove);
+        int parsedCurrMove;
+        int parsedNewMove;
 
-        return true;
+        if (boardMapper.containsKey(currMove) && boardMapper.containsKey(newMove)) {
+            parsedCurrMove = boardMapper.get(currMove);
+            parsedNewMove = boardMapper.get(newMove);
+            if (white.contains(parsedCurrMove) || kWhite.contains(parsedCurrMove)) {
+                if (parsedNewMove == (parsedCurrMove - (DIMENSION + 1))) {
+                    if (canMoveRearLeft(parsedCurrMove)) {
+                        this.moveWhite(parsedCurrMove, parsedNewMove);
+                        return true;
+                    }
+                } else if (parsedNewMove == (parsedCurrMove - (DIMENSION - 1))) {
+                    if (canMoveRearRight(parsedCurrMove)) {
+                        this.moveWhite(parsedCurrMove, parsedNewMove);
+                        return true;
+                    }
+                } else if (parsedNewMove == (parsedCurrMove - 2 * (DIMENSION + 1))) {
+                    if (canJumpRearLeft(parsedCurrMove)) {
+                        this.moveWhite(parsedCurrMove, parsedNewMove);
+                        this.moveBlack(parsedCurrMove - (DIMENSION + 1), 0);
+                        return true;
+                    }
+                } else if (parsedNewMove == (parsedCurrMove - 2 * (DIMENSION - 1))) {
+                    if (canJumpRearRight(parsedCurrMove)) {
+                        this.moveWhite(parsedCurrMove, parsedNewMove);
+                        this.moveBlack(parsedCurrMove - (DIMENSION - 1), 0);
+                        return true;
+                    }
+                }
+                if (kWhite.contains(parsedCurrMove)) {
+                    if (parsedNewMove == (parsedCurrMove + (DIMENSION + 1))) {
+                        if (canMoveForwardRight(parsedCurrMove)) {
+                            this.moveWhite(parsedCurrMove, parsedNewMove);
+                            return true;
+                        }
+                    } else if (parsedNewMove == (parsedCurrMove + (DIMENSION - 1))) {
+                        if (canMoveForwardLeft(parsedCurrMove)) {
+                            this.moveWhite(parsedCurrMove, parsedNewMove);
+                            return true;
+                        }
+                    } else if (parsedNewMove == (parsedCurrMove + 2 * (DIMENSION + 1))) {
+                        if (canJumpForwardRight(parsedCurrMove)) {
+                            this.moveWhite(parsedCurrMove, parsedNewMove);
+                            this.moveBlack(parsedCurrMove + (DIMENSION + 1), 0);
+                            return true;
+                        }
+                    } else if (parsedNewMove == (parsedCurrMove + 2 * (DIMENSION - 1))) {
+                        if (canJumpForwardLeft(parsedCurrMove)) {
+                            this.moveWhite(parsedCurrMove, parsedNewMove);
+                            this.moveBlack(parsedCurrMove + (DIMENSION - 1), 0);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
-    
+
     public boolean canMoveForwardLeft(int pos) {
         int pos2 = pos + (this.getDIMENSION() - 1);
         if (this.getBottomBorder().contains(pos) || this.getLeftBorder().contains(pos)
                 || this.getBlack().contains(pos2) || this.getWhite().contains(pos2)
-                || this.getkBlack().contains(pos2) || this.getkWhite().contains(pos2)) 
-        {
+                || this.getkBlack().contains(pos2) || this.getkWhite().contains(pos2)) {
             return false;
-        } 
-        else {return true;}
-        
+        } else {
+            return true;
+        }
+
     }
-    
+
     public boolean canMoveForwardRight(int pos) {
         int pos2 = pos + (this.getDIMENSION() + 1);
         if (this.getBottomBorder().contains(pos) || this.getRightBorder().contains(pos)
@@ -365,7 +426,7 @@ public class Board {
 
     public boolean canJumpRearLeft(int pos) {
         ArrayList<Integer> enemy = this.getEnemies(pos);
-        int pos2 = pos -(DIMENSION + 1);
+        int pos2 = pos - (DIMENSION + 1);
         int pos3 = pos2 - (DIMENSION + 1);
         if (enemy.contains(pos2) && !this.getTopBorder().contains(pos2)
                 && !this.getLeftBorder().contains(pos2) && isEmpty(pos3)) {
@@ -375,8 +436,8 @@ public class Board {
     }
 
     public boolean canJumpRearRight(int pos) {
-       ArrayList<Integer> enemy = this.getEnemies(pos);
-        int pos2 = pos -(DIMENSION - 1);
+        ArrayList<Integer> enemy = this.getEnemies(pos);
+        int pos2 = pos - (DIMENSION - 1);
         int pos3 = pos2 - (DIMENSION - 1);
         if (enemy.contains(pos2) && !this.getTopBorder().contains(pos2)
                 && !this.getRightBorder().contains(pos2) && isEmpty(pos3)) {
@@ -385,7 +446,7 @@ public class Board {
         return false;
     }
 //***************END MOVE VALIDATION************************//
-    
+
     private ArrayList<Integer> getEnemies(int pos) {
         ArrayList<Integer> enemy;
         if (this.getBlack().contains(pos) || this.getBlack().contains(pos)) {
@@ -397,8 +458,8 @@ public class Board {
         }
         return enemy;
     }
-    
-    public Board cloneBoard(){
+
+    public Board cloneBoard() {
         Board child = new Board();
         child.setBlack(this.getBlack());
         child.setWhite(this.getWhite());
@@ -406,10 +467,10 @@ public class Board {
         child.setkWhite(this.getkWhite());
         return child;
     }
-    
+
     @Override
-    public String toString(){
-        
+    public String toString() {
+
         int n = getDIMENSION();
         StringBuilder s = new StringBuilder();
         s.append("Depth =").append(this.depth).append("\n");

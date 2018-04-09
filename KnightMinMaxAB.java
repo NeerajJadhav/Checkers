@@ -5,7 +5,6 @@
  */
 package knightminmaxab;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -20,32 +19,24 @@ public class KnightMinMaxAB {
      */
     public static void main(String[] args) {
         minMaxAB tester = new minMaxAB();
-        //Board.getStartBoard().printBoard();
-        ValueStructure result = tester.start(Board.getStartBoard(),0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.min, Integer.MAX_VALUE, Integer.MIN_VALUE);    
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.min, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.min, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.min, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.min, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.min, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.min, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.min, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        result = tester.start(result.getPath().get(0), 0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
-        
-        System.out.println(result.toString());
-        
-//        Board current = Board.getStartBoard();        
-//        while(!current.getTerminal()){
-//            
-//        }
+        ValueStructure turn_result = tester.start(Board.getStartBoard(),0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
+        Board current_board = turn_result.getPath().get(0).cloneBoard();
+        current_board.printBoard();
+        String[] userMove;
+        //**************Main Game Loop*********************//
+        while(!current_board.getTerminal()){    
+            do{
+                userMove = getUserMove();
+            }
+            while(!current_board.isValidMove(userMove[0], userMove[1]));
+                
+//            current_board.moveWhite(current_board.mapValue(userMove[0]), current_board.mapValue(userMove[1]));
+            current_board.printBoard();              
+            turn_result = tester.start(current_board, 0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
+            current_board = turn_result.getPath().get(0).cloneBoard();
+            current_board.printBoard();
+        }
+        //*****************End Main Game Loop*******************//
         
     }
     public static String[] getUserMove(){
