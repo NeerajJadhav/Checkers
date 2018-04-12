@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class minMaxAB {
 
-    private static final int MAX_DEPTH = 9;
+    private static final int MAX_DEPTH = 5;    
 
     public enum Player {
         min, max
@@ -15,19 +15,18 @@ public class minMaxAB {
     }
 
     private ValueStructure minMax(Board position, int depth, Player player, int useThresh, int passThresh) {
-        ValueStructure currValueStructure = new ValueStructure();        
+        ValueStructure currValueStructure = new ValueStructure();
+        ArrayList<Board> currPath = new ArrayList<>(); //Used to temporarily store best path
         if (deepEnough(depth)) {            
-            currValueStructure.setValue(Static(position, player));
-            //currValueStructure.addToPath(position); //could be null
+            currValueStructure.setValue(Static(position, player));            
+            //currValueStructure.addToPath(position); //should be null
             return currValueStructure;
         }
+        
+        //Generate children for this turn
         ArrayList<Board> successors = moveGen(position, player);
-        //DEBUG CODE
-        for(Board b : successors){
-            b.depth = depth+1;
-            b.setValue(Static(b, player));
-        }
-        //END DEBUG CODE
+        
+        //No children means terminal state reached
         if (successors.isEmpty()) {
             position.setTerminal();
             currValueStructure.setValue(Static(position, player));
@@ -37,26 +36,29 @@ public class minMaxAB {
 
         for (Board v : successors) {
             ValueStructure resultSucc = minMax(v, (depth + 1), switchPlayer(player), ((-1) * passThresh), ((-1) * useThresh));
-            int newValue = (resultSucc.getValue() * (-1));
-            if (newValue > passThresh) {
+            int newValue = ((resultSucc.getValue() * (-1))); //new value
+            if (newValue > passThresh) { //Better child board found
                 passThresh = newValue;
-                currValueStructure.addToPath(v);//MAYBE
-                currValueStructure.addToPath(resultSucc.getPath());
+                currPath = new ArrayList<>();
+                currPath.add(v);
+                currPath.addAll(resultSucc.getPath());
             }
-            if (passThresh >= useThresh) {
-                //currValueStructure.setValue(passThresh); SEEMS REDUNDANT
+            if (passThresh >= useThresh) { //Prune
+                currValueStructure.setValue(passThresh);
+                currValueStructure.addToPath(currPath);
                 return currValueStructure;
             }
         }
+        currValueStructure.addToPath(currPath);
         currValueStructure.setValue(passThresh);
         return currValueStructure;
     }
 
     private boolean deepEnough(int depth) {
-        return depth >= MAX_DEPTH;
+        return depth > MAX_DEPTH;
     }
 
-    private int Static(Board position, Player player) {
+    private static int Static(Board position, Player player) {
         //Make a call to eval function
         return evalFunc.getScore(position, player);
     }

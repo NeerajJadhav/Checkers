@@ -285,7 +285,7 @@ public class Board {
             }
             System.out.println();
         }
-        System.out.println("Value is: " + this.getValue());
+        //System.out.println("Value is: " + this.getValue());
     }
 
     private void checkTerminal() {
@@ -449,7 +449,7 @@ public class Board {
 
     private ArrayList<Integer> getEnemies(int pos) {
         ArrayList<Integer> enemy;
-        if (this.getBlack().contains(pos) || this.getBlack().contains(pos)) {
+        if (this.getBlack().contains(pos) || this.getkBlack().contains(pos)) {
             enemy = this.getWhite();
             enemy.addAll(this.getkWhite());
         } else {
@@ -465,6 +465,9 @@ public class Board {
         child.setWhite(this.getWhite());
         child.setkBlack(this.getkBlack());
         child.setkWhite(this.getkWhite());
+        if(this.getTerminal() == true){
+            child.setTerminal();
+        }
         return child;
     }
 

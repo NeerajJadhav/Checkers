@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class ValueStructure {
 
     private int value;
+    //private int newValue;
     private ArrayList<Board> path;
 
     public ValueStructure() {
@@ -29,6 +30,12 @@ public class ValueStructure {
     public void setValue(int value) {
         this.value = value;
     }
+//    public int getNewValue() {
+//        return this.newValue;
+//    }
+//    public void setNewValue(int value) {
+//        this.newValue = value;
+//    }
     public ArrayList<Board> getPath() {
         return new ArrayList<>(path);
     }
