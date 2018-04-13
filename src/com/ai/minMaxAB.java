@@ -214,14 +214,12 @@ class minMaxAB {
         ArrayList<Integer> wkPieces = current.getkWhite();
         ArrayList<Board> children = new ArrayList<>();
         Board child;
-
+        int countWPieces = wPieces.size() + wkPieces.size();
         ///**************************BLACK*********************************///
-        if (player == Player.max) {
+        if (player == Player.max && countWPieces >= 1) {
             //**********************BLACK PIECE MOVE GENERATION**********************//
             for (int p : bPieces) {
-
                 makeMoveForLeft(current, children, true, false, p);
-
                 makeMoveForRight(current, children, true, false, p);
             }
             //********************END BLACK PIECE MOVE GENERATION*****************//

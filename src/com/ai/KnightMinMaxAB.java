@@ -52,10 +52,11 @@ public class KnightMinMaxAB {
     }
 
     public static void playerVsComputer() {
-        String[] wp = new String[]{"H1", "H3", "H5", "E6", "E8"};
-        String[] wk = new String[]{"B1"};
-        String[] bp = new String[]{"A6", "A8", "C6", "C8", "F1", "E2", "F3", "G4", "F5"};
-        String[] bk = new String[]{};
+        //"H1", "H3", "H5", "E6", "E8" B1K
+        String[] wp = new String[]{"G2", "H1"};
+        String[] wk = new String[]{};
+        String[] bp = new String[]{"A6", "A8", "C6", "C8", "F1", "E2", "F3", "F5"};
+        String[] bk = new String[]{"H3"};
         minMaxAB mmABGame = new minMaxAB();
 //        ValueStructure turn_result = mmABGame.start(Board.getStartBoard(), 0, minMaxAB.Player.max, 12000, (-12000));
         ValueStructure turn_result = mmABGame.start(Board.getDebugBoard(wp, bp, wk, bk), 0, minMaxAB.Player.max, 12000, (-12000));
@@ -72,6 +73,9 @@ public class KnightMinMaxAB {
             turn_result = mmABGame.start(current_board, 0, minMaxAB.Player.max, 20000, (-20000));
             current_board = turn_result.getPath().get(0).cloneBoard();
             current_board.printBoard();
+        }
+        if (current_board.getTerminal()) {
+            System.out.println(current_board.getWinner());
         }
         //*****************End Main Game Loop*******************//
     }

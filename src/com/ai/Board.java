@@ -490,6 +490,15 @@ public class Board {
         return child;
     }
 
+    public String getWinner() {
+        if (this.getkWhite().size() + this.getWhite().size() == 0)
+            return "Player with Black pieces is the winner";
+        else if (this.getBlack().size() + this.getkBlack().size() == 0) {
+            return "Player with White pieces is the winner";
+        }
+        return "Winner not decided yet";
+    }
+
     @Override
     public String toString() {
 
@@ -533,4 +542,5 @@ public class Board {
         }
         return s.toString();
     }
+
 }
