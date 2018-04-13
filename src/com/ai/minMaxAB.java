@@ -244,19 +244,18 @@ class minMaxAB {
                 makeMoveForLeft(current, children, false, false, p);
                 makeMoveForRight(current, children, false, false, p);
             }
+            //********************END WHITE PIECE MOVE GENERATION*****************//
+            //**********************WHITE KING MOVE GENERATION**********************//
+            for (int k : wkPieces) {
+
+
+                makeMoveForLeft(current, children, false, true, k);
+                makeMoveForRight(current, children, false, true, k);
+
+                //********************END WHITE KING MOVE GENERATION*****************//
+            }
+            ///************************END WHITE*******************************///
         }
-        //********************END WHITE PIECE MOVE GENERATION*****************//
-        //**********************WHITE KING MOVE GENERATION**********************//
-        for (int k : wkPieces) {
-
-
-            makeMoveForLeft(current, children, false, true, k);
-            makeMoveForRight(current, children, false, true, k);
-
-            //********************END WHITE KING MOVE GENERATION*****************//
-        }
-        ///************************END WHITE*******************************///
-
         return children; //RETURN ALL GENERATED CHILDREN
     }
 }

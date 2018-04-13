@@ -52,8 +52,13 @@ public class KnightMinMaxAB {
     }
 
     public static void playerVsComputer() {
+        String[] wp = new String[]{"H1", "H3", "H5", "E6", "E8"};
+        String[] wk = new String[]{"B1"};
+        String[] bp = new String[]{"A6", "A8", "C6", "C8", "F1", "E2", "F3", "G4", "F5"};
+        String[] bk = new String[]{};
         minMaxAB mmABGame = new minMaxAB();
-        ValueStructure turn_result = mmABGame.start(Board.getStartBoard(), 0, minMaxAB.Player.max, 12000, (-12000));
+//        ValueStructure turn_result = mmABGame.start(Board.getStartBoard(), 0, minMaxAB.Player.max, 12000, (-12000));
+        ValueStructure turn_result = mmABGame.start(Board.getDebugBoard(wp, bp, wk, bk), 0, minMaxAB.Player.max, 12000, (-12000));
         Board current_board = turn_result.getPath().get(0).cloneBoard();
         current_board.printBoard();
         String[] userMove;

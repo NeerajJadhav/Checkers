@@ -104,12 +104,54 @@ public class Board {
         populateBoardMapper();
     }
 
+    /**
+     * Warning: USER DISCRETION - This function only to be used for debugging purpose. Supply values as
+     * [AlphabetNumber] pair NOT as single number ranging from 0-64, to represent a piece.
+     * eg: array as {F3, F7} etc will be mapped accordingly to the board.
+     *
+     * @param wPieces  Type: Array INT - numbers representing white PAWN pieces
+     * @param bPieces  Type: Array INT - numbers representing black PAWN pieces
+     * @param wKPieces Type: Array INT - numbers representing white KING pieces
+     * @param bKPieces Type: Array INT - numbers representing black KING pieces
+     * @return this Type: Board. New Board set using above parameters
+     */
+    public static Board getDebugBoard(String[] wPieces, String[] bPieces, String[] wKPieces, String[] bKPieces) {
+        Board b = new Board();
+
+        ArrayList<Integer> bP = new ArrayList<>();
+        ArrayList<Integer> wP = new ArrayList<>();
+        ArrayList<Integer> bKP = new ArrayList<>();
+        ArrayList<Integer> wKP = new ArrayList<>();
+
+        // Not more than 24 pieces allowed on the board .
+
+        if ((wPieces.length + wKPieces.length) <= 12 && (bKPieces.length + bPieces.length) <= 12) {
+            //set new pieces
+            for (String bp : bPieces)
+                bP.add(b.mapValue(bp));
+            for (String wp : wPieces)
+                wP.add(b.mapValue(wp));
+            for (String wkp : wKPieces)
+                wKP.add(b.mapValue(wkp));
+            for (String bkp : bKPieces)
+                bKP.add(b.mapValue(bkp));
+        }
+
+        b.setWhite(wP);
+        b.setBlack(bP);
+        b.setkWhite(wKP);
+        b.setkBlack(bKP);
+
+        return b;
+    }
+
     public static Board getStartBoard() {
         Board b = new Board();
         b.setBlack(new ArrayList<>(Arrays.asList(2, 4, 6, 8, 9, 11, 13, 15, 18, 20, 22, 24)));
         b.setWhite(new ArrayList<>(Arrays.asList(41, 43, 45, 47, 50, 52, 54, 56, 57, 59, 61, 63)));
         return b;
     }
+
 
     private void populateBoardMapper() {
         String[] letters = new String[]{"A", "B", "C", "D", "E", "F", "G", "H"};
