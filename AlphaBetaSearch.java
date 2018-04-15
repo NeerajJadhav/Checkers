@@ -34,19 +34,24 @@ public class AlphaBetaSearch {
         ValueStructure currValStruct = new ValueStructure();
         ArrayList<Board> currPath = null;
         if (b.getTerminal()==true || depth > MAX_DEPTH){
+            currValStruct.boardsEvaluatedCount++;
             currValStruct.setValue(Utility.getScore(b, minMaxAB.Player.max));
             return currValStruct;
         }
         currValStruct.setValue(Integer.MIN_VALUE);
         ArrayList<Board> successors = Utility.moveGen(b,minMaxAB.Player.max);
         for(Board s : successors){
-            int x = minValue(s, alpha, beta, ++depth).getValue();
+            ValueStructure v = minValue(s, alpha, beta, ++depth);
+            currValStruct.boardsEvaluatedCount+=v.boardsEvaluatedCount;
+            currValStruct.pruneCount+=v.pruneCount;
+            int x = v.getValue();
             if(currValStruct.getValue() < x){
                 currValStruct.setValue(x);
                 currPath = new ArrayList<>();
                 currPath.add(s);
             }
             if(currValStruct.getValue() >= beta){
+                currValStruct.pruneCount++;
                 currValStruct.addToPath(currPath);
                 return currValStruct;
             }
@@ -68,20 +73,25 @@ public class AlphaBetaSearch {
         ValueStructure currValStruct = new ValueStructure();
         ArrayList<Board> currPath = null;
         if (b.getTerminal()==true || depth > MAX_DEPTH){
+            currValStruct.boardsEvaluatedCount++;
             currValStruct.setValue(Utility.getScore(b, minMaxAB.Player.max));
             return currValStruct;
         }
         
         currValStruct.setValue(Integer.MAX_VALUE);
         ArrayList<Board> successors = Utility.moveGen(b,minMaxAB.Player.min);
-        for(Board s : successors){
-            int x = maxValue(s, alpha, beta, ++depth).getValue();
+        for(Board s : successors){ 
+            ValueStructure v = maxValue(s, alpha, beta, ++depth);
+            currValStruct.boardsEvaluatedCount+=v.boardsEvaluatedCount;
+            currValStruct.pruneCount+=v.pruneCount;
+            int x = v.getValue();
             if(currValStruct.getValue() > x){
                 currValStruct.setValue(x);
                 currPath = new ArrayList<>();
                 currPath.add(s);
             }            
             if(currValStruct.getValue() <= alpha){
+                currValStruct.pruneCount++;
                 currValStruct.addToPath(currPath);
                 return currValStruct;
             }

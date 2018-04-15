@@ -18,20 +18,21 @@ class minMaxAB {
     public enum Player {
         min, max
     }
+    
+    public ValueStructure start(Board position, int depth, Player player, int maxUse, int minPass) {
+        return minMax(position, depth, player, maxUse, minPass);
+    }
 
     private static int Static(Board position, Player player) {
         //Make a call to eval function
         return Utility.getScore(position, player);
-    }
-
-    public ValueStructure start(Board position, int depth, Player player, int maxUse, int minPass) {
-        return minMax(position, depth, player, maxUse, minPass);
-    }
+    }   
 
     private ValueStructure minMax(Board position, int depth, Player player, int useThresh, int passThresh) {
         ValueStructure currValueStructure = new ValueStructure();
         ArrayList<Board> currPath = new ArrayList<>(); //Used to temporarily store best path
         if (deepEnough(depth)) {
+            currValueStructure.boardsEvaluatedCount++;
             currValueStructure.setValue(Static(position, player));
             //currValueStructure.addToPath(position); //should be null
             return currValueStructure;
@@ -50,6 +51,12 @@ class minMaxAB {
 
         for (Board v : successors) {
             ValueStructure resultSucc = minMax(v, (depth + 1), switchPlayer(player), ((-1) * passThresh), ((-1) * useThresh));
+            
+            //ANALYSIS COUNTER//
+            currValueStructure.boardsEvaluatedCount += resultSucc.boardsEvaluatedCount;
+            currValueStructure.pruneCount+=resultSucc.pruneCount;
+            //END ANALYSIS//
+            
             int newValue = ((resultSucc.getValue() * (-1))); //new value
             if (newValue > passThresh) { //Better child board found
                 passThresh = newValue;
@@ -58,6 +65,7 @@ class minMaxAB {
                 currPath.addAll(resultSucc.getPath());
             }
             if (passThresh >= useThresh) { //Prune
+                currValueStructure.pruneCount++;
                 currValueStructure.setValue(passThresh);
                 currValueStructure.addToPath(currPath);
                 return currValueStructure;

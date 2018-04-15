@@ -66,9 +66,11 @@ public class KnightMinMaxAB {
             } while (!current_board.isValidMove(userMove[0], userMove[1]));
 //          current_board.moveWhite(current_board.mapValue(userMove[0]), current_board.mapValue(userMove[1]));
             current_board.printBoard();
-            turn_result = mmABGame.start(current_board, 0, minMaxAB.Player.max, 20000, (-20000));
+            turn_result = mmABGame.start(current_board, 0, minMaxAB.Player.max, Integer.MAX_VALUE, Integer.MIN_VALUE);
             current_board = turn_result.getPath().get(0).cloneBoard();
             current_board.printBoard();
+            System.out.println("Boards Evaluated: "+turn_result.boardsEvaluatedCount);
+            System.out.println("Prunes: "+turn_result.pruneCount);
         }
         if (current_board.getTerminal()) {
             System.out.println(current_board.getWinner());
@@ -102,9 +104,14 @@ public class KnightMinMaxAB {
             turn_result = mmABGame.start(current_board, 0, minMaxAB.Player.max, 12000, (-12000));
             current_board = turn_result.getPath().get(0).cloneBoard();
             current_board.printBoard();
+            System.out.println("Boards Evaluated: "+turn_result.boardsEvaluatedCount);
+            System.out.println("Prunes: "+turn_result.pruneCount);
+            
             turn_result = mmABGame.start(current_board, 0, minMaxAB.Player.min, 20000, (-20000));
             current_board = turn_result.getPath().get(0).cloneBoard();
             current_board.printBoard();
+            System.out.println("Boards Evaluated: "+turn_result.boardsEvaluatedCount);
+            System.out.println("Prunes: "+turn_result.pruneCount);
             if (getConfirm() != 1) {
                 return;
             }
@@ -145,6 +152,8 @@ public class KnightMinMaxAB {
             turn_result = mmABGame.start(current_board);
             current_board = turn_result.getPath().get(0).cloneBoard();
             current_board.printBoard();
+            System.out.println("Boards Evaluated: "+turn_result.boardsEvaluatedCount);
+            System.out.println("Prunes: "+turn_result.pruneCount);
         }
         if (current_board.getTerminal()) {
             System.out.println(current_board.getWinner());

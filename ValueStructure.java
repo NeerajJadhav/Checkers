@@ -14,8 +14,12 @@ import java.util.ArrayList;
 public class ValueStructure {
 
     private int value;
-    //private int newValue;
+    
     private ArrayList<Board> path;
+    //DEBUG VARIABLES AND FUNCTIONS FOR ANALYSIS//
+    public int boardsEvaluatedCount=0;
+    public int pruneCount=0;    
+    //END DEBUG VARIABLES AND FUNCTIONS
 
     public ValueStructure() {
         path = new ArrayList<>();
@@ -43,12 +47,6 @@ public class ValueStructure {
         this.value = value;
     }
 
-    //    public int getNewValue() {
-//        return this.newValue;
-//    }
-//    public void setNewValue(int value) {
-//        this.newValue = value;
-//    }
     public ArrayList<Board> getPath() {
         return new ArrayList<>(path);
     }
