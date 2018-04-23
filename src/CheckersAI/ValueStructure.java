@@ -7,8 +7,11 @@ package CheckersAI;
 import java.util.ArrayList;
 
 /**
- *
- * @author Zachary
+ * The purpose of this class is to wrap several attributes for propagation through the tree.
+ *     Both needed tangible data such as Value and Path are included, as well as meta data like
+ *     boards evaluated and prune count. An instance of ValueStructure will be the result of an 
+ *     AI algorithm. 
+ * 
  */
 public class ValueStructure {
     
