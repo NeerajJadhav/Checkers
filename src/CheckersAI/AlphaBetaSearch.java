@@ -38,7 +38,7 @@ public class AlphaBetaSearch {
      * Algorithm : Alpha Beta Search.
      * <p>
      * Uses mutual recursive algorithm maxValue maximizing Max players value while minValue trying to minimize. There is
-     * no pruning of the tree in this algorithm.
+     * pruning of the tree in this algorithm.
      *
      * @param b
      * @param p
