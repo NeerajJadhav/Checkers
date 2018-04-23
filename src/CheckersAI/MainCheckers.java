@@ -4,8 +4,8 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- *
- * @author Zachary
+ * This is the main driver for the Checkers Program. It provides IO to user for gameplay and controls the game loops.
+ * 
  */
 public class MainCheckers {
 
