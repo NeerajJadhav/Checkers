@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Zachary
+ * Implements the Min-Max - AB Algorithm by Rich & Knight
  */
 public class minMaxAB {
 
