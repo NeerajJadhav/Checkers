@@ -4,8 +4,8 @@ package CheckersAI;
 import java.util.ArrayList;
 
 /**
- * This class uses MinMax algorithm with AlphaBeta Search without tree pruning.
- * @author Zachary and Niraj
+ * This class uses the AB Search Algorithm
+ * 
  */
 public class AlphaBetaSearch {
 
