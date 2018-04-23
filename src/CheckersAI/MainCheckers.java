@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package CheckersAI;
 
 import java.util.Scanner;
@@ -12,7 +7,7 @@ import java.util.regex.Pattern;
  *
  * @author Zachary
  */
-public class KnightMinMaxAB {
+public class MainCheckers {
 
     static int totalBoards = 0;
     static int totalPrune = 0;

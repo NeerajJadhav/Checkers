@@ -201,9 +201,9 @@ public class evalFunc {
         return (int) (wValue - bValue);
 //          return (int) (bValue-wValue);
     }
-    
-    
-    //WRITTEN BY NEERAJ JADHAV
+
+
+    //WRITTEN BY NIRAJ JADHAV
 
     /**
      * A standard version of scoring function that evaluates just the kills made by the player and opponent.

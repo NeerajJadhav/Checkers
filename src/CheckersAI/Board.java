@@ -1,6 +1,3 @@
-/*
- * Created by $user on 22/4/2018 at $hour24:$minute
- */
 
 package CheckersAI;
 
@@ -330,9 +327,7 @@ public class Board {
             }
         } else if (this.kBlack.contains(oldP)) {
             this.kBlack.remove(oldP);
-        } else if (this.black.contains(oldP)) {
-            this.black.remove(oldP);
-        }
+        } else this.black.remove(oldP);
         checkTerminal();
         /*System.out.println("After Black");
         this.printBoard();
@@ -364,9 +359,7 @@ public class Board {
             }
         } else if (kWhite.contains(oldP)) {
             kWhite.remove(oldP);
-        } else if (white.contains(oldP)) {
-            white.remove(oldP);
-        }
+        } else white.remove(oldP);
         checkTerminal();
         /*System.out.println("After White");
         this.printBoard();
@@ -506,13 +499,9 @@ public class Board {
      */
     public boolean canMoveForwardLeft(int pos) {
         int pos2 = pos + (this.getDIMENSION() - 1);
-        if (this.getBottomBorder().contains(pos) || this.getLeftBorder().contains(pos)
-                || this.getBlack().contains(pos2) || this.getWhite().contains(pos2)
-                || this.getkBlack().contains(pos2) || this.getkWhite().contains(pos2)) {
-            return false;
-        } else {
-            return true;
-        }
+        return !this.getBottomBorder().contains(pos) && !this.getLeftBorder().contains(pos)
+                && !this.getBlack().contains(pos2) && !this.getWhite().contains(pos2)
+                && !this.getkBlack().contains(pos2) && !this.getkWhite().contains(pos2);
 
     }
 
@@ -524,13 +513,9 @@ public class Board {
      */
     public boolean canMoveForwardRight(int pos) {
         int pos2 = pos + (this.getDIMENSION() + 1);
-        if (this.getBottomBorder().contains(pos) || this.getRightBorder().contains(pos)
-                || this.getBlack().contains(pos2) || this.getWhite().contains(pos2)
-                || this.getkBlack().contains(pos2) || this.getkWhite().contains(pos2)) {
-            return false;
-        } else {
-            return true;
-        }
+        return !this.getBottomBorder().contains(pos) && !this.getRightBorder().contains(pos)
+                && !this.getBlack().contains(pos2) && !this.getWhite().contains(pos2)
+                && !this.getkBlack().contains(pos2) && !this.getkWhite().contains(pos2);
     }
 
     /**
@@ -541,13 +526,9 @@ public class Board {
      */
     public boolean canMoveRearLeft(int pos) {
         int pos2 = pos - (this.getDIMENSION() + 1);
-        if (this.getTopBorder().contains(pos) || this.getLeftBorder().contains(pos)
-                || this.getBlack().contains(pos2) || this.getWhite().contains(pos2)
-                || this.getkBlack().contains(pos2) || this.getkWhite().contains(pos2)) {
-            return false;
-        } else {
-            return true;
-        }
+        return !this.getTopBorder().contains(pos) && !this.getLeftBorder().contains(pos)
+                && !this.getBlack().contains(pos2) && !this.getWhite().contains(pos2)
+                && !this.getkBlack().contains(pos2) && !this.getkWhite().contains(pos2);
     }
 
     /**
@@ -558,13 +539,9 @@ public class Board {
      */
     public boolean canMoveRearRight(int pos) {
         int pos2 = pos - (this.getDIMENSION() - 1);
-        if (this.getTopBorder().contains(pos) || this.getRightBorder().contains(pos)
-                || this.getBlack().contains(pos2) || this.getWhite().contains(pos2)
-                || this.getkBlack().contains(pos2) || this.getkWhite().contains(pos2)) {
-            return false;
-        } else {
-            return true;
-        }
+        return !this.getTopBorder().contains(pos) && !this.getRightBorder().contains(pos)
+                && !this.getBlack().contains(pos2) && !this.getWhite().contains(pos2)
+                && !this.getkBlack().contains(pos2) && !this.getkWhite().contains(pos2);
     }
 
     /**
@@ -577,11 +554,8 @@ public class Board {
         ArrayList<Integer> enemy = this.getEnemies(pos);
         int pos2 = pos + (DIMENSION - 1);
         int pos3 = pos2 + (DIMENSION - 1);
-        if (enemy.contains(pos2) && !this.getBottomBorder().contains(pos2)
-                && !this.getLeftBorder().contains(pos2) && isEmpty(pos3)) {
-            return true;
-        }
-        return false;
+        return enemy.contains(pos2) && !this.getBottomBorder().contains(pos2)
+                && !this.getLeftBorder().contains(pos2) && isEmpty(pos3);
     }
 
     /**
@@ -594,11 +568,8 @@ public class Board {
         ArrayList<Integer> enemy = this.getEnemies(pos);
         int pos2 = pos + (DIMENSION + 1);
         int pos3 = pos2 + (DIMENSION + 1);
-        if (enemy.contains(pos2) && !this.getBottomBorder().contains(pos2)
-                && !this.getRightBorder().contains(pos2) && isEmpty(pos3)) {
-            return true;
-        }
-        return false;
+        return enemy.contains(pos2) && !this.getBottomBorder().contains(pos2)
+                && !this.getRightBorder().contains(pos2) && isEmpty(pos3);
     }
 
     /**
@@ -611,11 +582,8 @@ public class Board {
         ArrayList<Integer> enemy = this.getEnemies(pos);
         int pos2 = pos - (DIMENSION + 1);
         int pos3 = pos2 - (DIMENSION + 1);
-        if (enemy.contains(pos2) && !this.getTopBorder().contains(pos2)
-                && !this.getLeftBorder().contains(pos2) && isEmpty(pos3)) {
-            return true;
-        }
-        return false;
+        return enemy.contains(pos2) && !this.getTopBorder().contains(pos2)
+                && !this.getLeftBorder().contains(pos2) && isEmpty(pos3);
     }
 
     /**
@@ -628,11 +596,8 @@ public class Board {
         ArrayList<Integer> enemy = this.getEnemies(pos);
         int pos2 = pos - (DIMENSION - 1);
         int pos3 = pos2 - (DIMENSION - 1);
-        if (enemy.contains(pos2) && !this.getTopBorder().contains(pos2)
-                && !this.getRightBorder().contains(pos2) && isEmpty(pos3)) {
-            return true;
-        }
-        return false;
+        return enemy.contains(pos2) && !this.getTopBorder().contains(pos2)
+                && !this.getRightBorder().contains(pos2) && isEmpty(pos3);
     }
 
 //***************END MOVE VALIDATION************************//

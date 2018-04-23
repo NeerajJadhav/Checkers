@@ -16,11 +16,12 @@ public class minMaxAB {
 
     /**
      * Starter function for calling minMax algorithm.
-     * @param position
-     * @param depth
-     * @param player
-     * @param maxUse
-     * @param minPass
+     *
+     * @param position Current board to be analyzes
+     * @param depth current depth of the tree
+     * @param player denotes which player has the turn
+     * @param maxUse maximum threshold value available
+     * @param minPass minimum threshold value available.
      * @return
      */
     public ValueStructure start(Board position, int depth, Board.Player player, int maxUse, int minPass) {

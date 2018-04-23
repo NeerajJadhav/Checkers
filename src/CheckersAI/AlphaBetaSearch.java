@@ -14,26 +14,42 @@ public class AlphaBetaSearch {
 
     /**
      * Constructor initializing with scoreOption 1 as default.
-     * @param b Board -
-     * @param p
-     * @return
+     * @param b Board - board to be used analysis
+     * @param p current player
+     * @return ValueStructure of
      */
     public ValueStructure start(Board b, Board.Player p) {
         scoreOption = 1;
         return alphaBetaSearch(b, p);
     }
 
+    /**
+     * @param b
+     * @param p
+     * @param scoringOption
+     * @return
+     */
     public ValueStructure start(Board b, Board.Player p, int scoringOption) {
         scoreOption = scoringOption;
         return alphaBetaSearch(b, p);
     }
 
+    /**
+     * Algorithm : Alpha Beta Search.
+     * <p>
+     * Uses mutual recursive algorithm maxValue maximizing Max players value while minValue trying to minimize. There is
+     * no pruning of the tree in this algorithm.
+     *
+     * @param b
+     * @param p
+     * @return
+     */
     private ValueStructure alphaBetaSearch(Board b, Board.Player p) {
         return maxValue(b, Integer.MIN_VALUE, Integer.MAX_VALUE, 0, p);
     }
 
     /**
-     * Tries to maximize max value. Increasing chances of max player.
+     * Tries to maximize max's value. Increasing chances of max player.
      * @param b
      * @param alpha
      * @param beta
