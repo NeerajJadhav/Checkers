@@ -1,7 +1,3 @@
-/*
- * Created by $user on 22/4/2018 at $hour24:$minute
- */
-
 package CheckersAI;
 
 import java.util.ArrayList;
@@ -11,7 +7,7 @@ import java.util.ArrayList;
  *     Both needed tangible data such as Value and Path are included, as well as meta data like
  *     boards evaluated and prune count. An instance of ValueStructure will be the result of an
  *     AI algorithm.
- *
+ * @author Zachary, Niraj
  */
 public class ValueStructure {
     
