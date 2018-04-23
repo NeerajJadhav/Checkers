@@ -12,8 +12,11 @@ package CheckersAI;
 import java.util.ArrayList;
 
 /**
- *
- * @author Zachary
+ * This class houses the evaluation functions. There are two, getScore and getScore2. getScore was written by Zachary P. Languell and
+ *   getScore2 was written by Neeraj Jadhav. The purpose of the difference in complexity was to determine whether an aggressive but
+ *   simple piece for piece evaluation would ultimately be more efficient than a complex function that makes several considerations
+ *   such as location on the board, nearby enemies, and defensive tactics. 
+ * 
  */
 public class evalFunc {
 
@@ -26,8 +29,9 @@ public class evalFunc {
     private static final int KING_DEFENSE = 35;
 
     /**
-     * Gets the score for given player and board based on checking number of kings, pawns, jumps and moves nearest to
-     * to making kings as well as opponent kills that can be made by each pieces of the player and its opponent.
+     * Gets the score for given player and board based on several deciding factors including: number of regular and king pieces, nearby
+     * enemies available to jump, moving pieces towards king-making positions, defending your back line to prevent enemy kings, and
+     * more.
      * @param b Board - current board to be evaluated
      * @param p Board.Player - whose turn is on the board
      * @return int - evaluated board value for the given player.
@@ -201,9 +205,9 @@ public class evalFunc {
         return (int) (wValue - bValue);
 //          return (int) (bValue-wValue);
     }
-
-
-    //WRITTEN BY NIRAJ JADHAV
+    
+    
+    //WRITTEN BY NEERAJ JADHAV
 
     /**
      * A standard version of scoring function that evaluates just the kills made by the player and opponent.
