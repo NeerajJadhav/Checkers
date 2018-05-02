@@ -37,6 +37,8 @@ public class MainCheckers {
                     computerVsComputer3();
                     break;
                 case 6:
+                    playerVsComputer7();
+                case 7:
                     System.out.println("Thank you for playing!");
                     System.exit(0);
             }
@@ -56,10 +58,11 @@ public class MainCheckers {
             System.out.println("\t3.Watch the computers play! (minMaxAB vs minMaxAB)");
             System.out.println("\t4.Watch the computers play! (ABSearch vs ABSearch)");
             System.out.println("\t5.Watch the computers play! (minMaxAB vs ABSearch)");
-            System.out.println("\t6.Exit");
+            System.out.println("\t6.Play against the computer!(minMaxAB) -Eval Function 2-");
+            System.out.println("\t7.Exit");
             System.out.print("Option: ");
             option = s.nextInt();
-        } while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5 && option != 6);
+        } while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5 && option != 6 && option != 7);
         return option;
     }
 
@@ -292,4 +295,35 @@ public class MainCheckers {
         //*****************End Main Game Loop*******************//
     }
 
+    private static void playerVsComputer7() {
+        minMaxAB mmABGame = new minMaxAB();
+        ValueStructure turn_result;
+//        ValueStructure turn_result = mmABGame.start(Board.getStartBoard(), 0, Board.Player.black,
+//                Integer.MAX_VALUE, Integer.MIN_VALUE);
+//        Board current_board = turn_result.getPath().get(0).cloneBoard();
+        Board current_board = Board.getStartBoard();
+        current_board.printBoard();
+        String[] userMove;
+        //**************Main Game Loop*********************//
+        while (!current_board.getTerminal()) {
+            do {
+                userMove = getUserMove();
+            } while (!current_board.isValidMove(userMove[0], userMove[1]));
+//          current_board.moveWhite(current_board.mapValue(userMove[0]), current_board.mapValue(userMove[1]));
+            current_board.printBoard();
+            turn_result = mmABGame.start(current_board, 0, Board.Player.black, MAX_VALUE, MIN_VALUE, 1);
+            current_board = turn_result.getPath().get(0).cloneBoard();
+            current_board.printBoard();
+            totalPrune += turn_result.pruneCount;
+            totalBoards += turn_result.boardsEvaluatedCount;
+            System.out.println("Boards Evaluated: " + turn_result.boardsEvaluatedCount);
+            System.out.println("Prunes: " + turn_result.pruneCount);
+        }
+        if (current_board.getTerminal()) {
+            System.out.println(current_board.getWinner());
+            System.out.println("Total Boards Evaluated: " + totalBoards);
+            System.out.println("Total Prunes: " + totalPrune);
+        }
+        //*****************End Main Game Loop*******************//
+    }
 }

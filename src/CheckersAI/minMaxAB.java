@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class minMaxAB {
 
     private static final int MAX_DEPTH = 6;
-
+    private static int eval = 0;
     /**
      * Starter function for calling minMax algorithm.
      *
@@ -28,6 +28,10 @@ public class minMaxAB {
         return minMax(position, depth, player, maxUse, minPass);
     }
 
+    public static void setEval(int eval) {
+        if (eval == 0 || eval == 1)
+            minMaxAB.eval = eval;
+    }
     /**
      * Algorithm MinMax with Pruning: Finds the best possible move to make generating a tree and taking path that has
      * the highest score. Pruning is done to the nodes that do not satisfy use threshold values.
@@ -87,15 +91,6 @@ public class minMaxAB {
     }
 
     /**
-     * Checks if defined depth is reached.
-     * @param depth current depth
-     * @return Boolean true if current depth is greater than max depth.
-     */
-    private boolean deepEnough(int depth) {
-        return depth > MAX_DEPTH;
-    }
-
-    /**
      * Generates a score using getScore() evaluation of board.
      * @param position - Board - board to be evaluated
      * @param player - Board.Player - current player of the board
@@ -103,7 +98,25 @@ public class minMaxAB {
      */
     private static int Static(Board position, Board.Player player) {
         //Make a call to eval function
-        return evalFunc.getScore(position, player);
+        if (eval == 0) {
+            return evalFunc.getScore(position, player);
+        } else {
+            return evalFunc.getScore2(position, player);
+        }
+    }
+
+    /**
+     * Checks if defined depth is reached.
+     *
+     * @param depth current depth
+     * @return Boolean true if current depth is greater than max depth.
+     */
+    private boolean deepEnough(int depth) {
+        return depth > MAX_DEPTH;
+    }
+
+    public ValueStructure start(Board position, int depth, Board.Player player, int maxUse, int minPass, int eval) {
+        return minMax(position, depth, player, maxUse, minPass);
     }
 
     /**

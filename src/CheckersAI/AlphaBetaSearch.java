@@ -19,8 +19,11 @@ public class AlphaBetaSearch {
      * @return ValueStructure of
      */
     public ValueStructure start(Board b, Board.Player p) {
-        scoreOption = 1;
         return alphaBetaSearch(b, p);
+    }
+
+    public void setScoreOption(int scoreOption) {
+        this.scoreOption = scoreOption;
     }
 
     /**
@@ -30,7 +33,6 @@ public class AlphaBetaSearch {
      * @return
      */
     public ValueStructure start(Board b, Board.Player p, int scoringOption) {
-        scoreOption = scoringOption;
         return alphaBetaSearch(b, p);
     }
 
@@ -60,9 +62,9 @@ public class AlphaBetaSearch {
         ValueStructure currValStruct = new ValueStructure();
         ArrayList<Board> currPath = null;
 
-        if (b.getTerminal() == true || depth > MAX_DEPTH) {
+        if (b.getTerminal() || depth > MAX_DEPTH) {
             currValStruct.boardsEvaluatedCount++;
-            if (scoreOption == 1) {
+            if (scoreOption == 0) {
                 currValStruct.setValue(evalFunc.getScore(b, p));
             } else {
                 currValStruct.setValue(evalFunc.getScore2(b, p));
